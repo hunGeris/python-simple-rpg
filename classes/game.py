@@ -4,14 +4,14 @@ import random
 # have no idea what this will be used for, looks like colors for the RPG.
 # TBD
 class bcolors:
-    HEADER: '\033[95m'
-    OKBLUE: '\033[94m'
-    OKGREEN: '\033[92m'
-    WARNING: '\033[93m'
-    FAIL: '\033[91m'
-    ENDC: '\033[0m'
-    BOLD: '\033[1m'
-    UNDERLINE: '\033[4m'
+    HEADER = '\033[95m'
+    OKBLUE = '\033[94m'
+    OKGREEN = '\033[92m'
+    WARNING = '\033[93m'
+    FAIL = '\033[91m'
+    ENDC = '\033[0m'
+    BOLD = '\033[1m'
+    UNDERLINE = '\033[4m'
 
 
 # init the Person class
@@ -30,3 +30,14 @@ class Person:
 
     def generate_damage(self):
         return random.randrange(self.atkl, self.atkh)
+
+    def generate_spell_damage(self, i):
+        mgl = self.magic[i]["dmg"] - 5
+        mgh = self.magic[i]["dmg"] + 5
+        return random.randrange(mgl, mgh)
+
+    def take_damage(self, dmg):
+        self.hp -= dmg
+        if self.hp < 0
+            self.hp = 0
+        return self.hp

@@ -1,8 +1,7 @@
 import random
 
 
-# have no idea what this will be used for, looks like colors for the RPG.
-# TBD
+# Commandline colors for the RPG.
 class bcolors:
     HEADER = '\033[95m'
     OKBLUE = '\033[94m'
@@ -17,7 +16,7 @@ class bcolors:
 # init the Person class
 class Person:
     # annoying that we have to init all the items passed in, but normal to do so
-    def __init__(self, hp, mp, atk, df, magic):
+    def __init__(self, hp, mp, atk, df, magic, items):
         self.maxhp = hp
         self.hp = hp
         self.maxmp = mp
@@ -26,7 +25,8 @@ class Person:
         self.atkh = atk + 10
         self.df = df
         self.magic = magic
-        self.actions =["Attack", "Magic"]
+        self.items = items
+        self.actions = ["Attack", "Magic", "Items"]
 
     def generate_damage(self):
         return random.randrange(self.atkl, self.atkh)
@@ -35,6 +35,12 @@ class Person:
         self.hp -= dmg
         if self.hp < 0:
             self.hp = 0
+        return self.hp
+
+    def heal(self, amount):
+        self.hp += amount
+        if self.hp > self.maxhp:
+            self.hp = self.maxhp
         return self.hp
 
     def get_hp(self):
@@ -54,14 +60,23 @@ class Person:
 
     def choose_action(self):
         i = 1
-        print("Actions")
+        print("\n" + bcolors.OKBLUE + "ACTIONS:" + bcolors.ENDC)
         for item in self.actions:
-            print(str(i) + ":", item)
+            print("    " + str(i) + ". " + item)
             i += 1
 
     def choose_magic(self):
         i = 1
-        print("Magic")
+        print("\n" + bcolors.OKBLUE + "MAGIC:" + bcolors.ENDC)
+        print("    0. Go Back")
         for spell in self.magic:
-            print(str(i) + ":", spell.name, "(cost:", str(spell.cost) + ")")
+            print("    " + str(i) + ". " + spell.name + " - cost: " + str(spell.cost))
+            i += 1
+
+    def choose_items(self):
+        i = 1
+        print("\n" + bcolors.OKGREEN + "ITEMS:" + bcolors.ENDC)
+        print("    0. Go Back")
+        for item in self.items:
+            print("    " + str(i) + ". " + item["item"].name + " - description: " + item["item"].description + " (x" + str(item["quantity"]) + ")")
             i += 1
